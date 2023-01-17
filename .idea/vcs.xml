@@ -3,6 +3,7 @@
   <component name="VcsDirectoryMappings">
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/DemoModule4Express" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/MongoDB/Case_MD4_Phase1" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/express-product-list" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/test/express-product-list" vcs="Git" />
   </component>
