@@ -1,0 +1,108 @@
+<div class="modal">
+	<div class="overlay">
+		<div class="modal-inner">
+			<div class="modal-inner__head">
+				<span>YoloShop</span>
+				<span onclick="closeSearch()"><i class='bx bx-x' ></i></span>
+			</div>
+			<div class="modal-inner__body">
+				<div class="search-group">
+					<div class="search-input">
+						<input type="text" name="" placeholder="Search..." id="">
+						<!-- <button>
+							<i class='bx bx-search-alt'></i>
+						</button> -->
+					</div>
+					<div class="search-result">
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div id="header">
+	<div class="container">
+		<div class="header-logo">
+			<a href="/">
+				<img src="../../public/images/yolo-logo.png" alt="" loading="lazy" />
+			</a>
+		</div>
+		<div class="header-menu">
+			<div class="header-menu__mobile-toggle" onClick="menuToggle()">
+				<i class="bx bx-menu-alt-left"></i>
+			</div>
+			<div class="header-menu__left">
+				<div class="header-menu__left-close" onClick="menuToggle()">
+					<i class="bx bx-chevron-left"></i>
+				</div>
+				<div class="header-menu__item left" id="home">
+					<a href="/">
+						<span>Trang chủ</span>
+					</a>
+				</div>
+				<div class="header-menu__item left" id="product">
+					<a href="/products" data-link>
+						<span>Sản phẩm</span>
+					</a>
+				</div>				
+			</div>
+			<a href="/" class="home"></a>
+			<div class="header-menu__right">
+				<div class="header-menu__item" onclick="openSearch()">
+					<i class="bx bx-search"></i>
+				</div>
+				<div class="header-menu__item cart__icon">
+					<a href="/cart">
+						<i class="bx bx-shopping-bag"></i>
+					</a>
+					<span class="cover-num">
+					<% if(cartNum.cartNum != null && cartNum.cartNum.products.length > 0){ %>
+						<a href="/cart" class="cart-num">
+								<%= cartNum.cartNum.products.length %> 
+						</a>
+						<% } %>	
+					</span>
+				</div>
+				<div class="header-menu__item header-menu__item-user">
+					<a href="/auth/login">
+						<i class="bx bx-user"> </i>
+					</a>
+					<div class="user-action">
+						<ul>
+							<% if(logging){ %>
+								<a href="/account">
+									<i class="bx bx-user-circle"></i>
+									<span>Tài khoản của tôi</span>
+								</a>
+								<a href="/account?orders">
+									<i class="bx bx-bookmark-alt"></i>
+									<span>Đơn mua</span>
+								</a>
+								<a href="" onclick="logout()">
+									<i class="bx bx-log-out-circle"></i>
+									<span>Đăng xuất</span>
+								</a>
+							<% } else { %>
+								<a href="/auth/login">
+									<i class="bx bx-log-in-circle"></i>
+									<span>Đăng nhập</span>
+								</a>
+								<a href="/auth/register">
+									<i class='bx bx-user-plus'></i>
+									<span>Đăng ký</span>
+								</a>
+							<% } %> 
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<!-- Tạo lớp overlay loading -->
+<div class="lazy-loading hide">
+	<div class="lazy-text">Loading...</div>
+	<div class="line-loading"></div>
+</div>
