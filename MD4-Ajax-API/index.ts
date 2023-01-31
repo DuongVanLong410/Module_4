@@ -11,7 +11,7 @@ const app = express();
 AppDataSource.initialize().then(()=>{
     console.log('Connect database success!!!')
 })
-app.use(cors())
+app.use(cors());
 mongoose.set('strictQuery', true);
 app.set('views', './src/views');
 app.set('view engine', 'ejs');
@@ -30,5 +30,5 @@ app.use('', router);
 
 app.listen(3000, () => {
     console.log('Server is running at http://localhost:3000/users/login')
-    console.log('Server is started at index.html')
+    console.log('Server is running at Front-End/index.html')
 })

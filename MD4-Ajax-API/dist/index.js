@@ -34,5 +34,6 @@ app.use((0, express_session_1.default)({
 app.use('', router_1.router);
 app.listen(3000, () => {
     console.log('Server is running at http://localhost:3000/users/login');
+    console.log('Server is running at Front-End/index.html');
 });
 //# sourceMappingURL=index.js.map
