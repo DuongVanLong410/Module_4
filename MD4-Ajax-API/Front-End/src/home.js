@@ -14,7 +14,7 @@ function showList() {
             <td>${item.id}</td>
             <td>${item.name}</td>
             <td>${item.price}</td>
-            <td><img src="${item.image}" alt=""></td>
+            <td><img src="${item.image}" alt="" style="width: 200px;height: 100%" ></td>
             <td>${item.nameCategory}</td>
             <td><button onclick="remove(${item.id})">Delete</button></td>
             <td><button onclick="showFormEdit(${item.id})">Edit</button></td>
@@ -135,6 +135,8 @@ function showFormEdit(id) {
         },
         success: (product) => {
             $('#body').html(`
+    <button onclick="showHome()">Home</button>
+
 <input type="text" id="name" placeholder="Name" value="${product.name}">
         <input type="text" id="price" placeholder="Price" value="${product.price}">
      
