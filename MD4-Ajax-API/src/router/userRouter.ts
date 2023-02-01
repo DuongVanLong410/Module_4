@@ -3,6 +3,7 @@ import userController from "../controller/UserController";
 
 export const userRouter = Router();
 userRouter.get('/login', userController.showFormLogin);
+userRouter.post('/register', userController.register);
 userRouter.post('/login', userController.login);
 userRouter.get('/logout', userController.logout);
 userRouter.get('/signup', userController.formSignup);

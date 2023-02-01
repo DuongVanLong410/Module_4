@@ -1,6 +1,7 @@
 declare class UserService {
     private userRepository;
     constructor();
+    register: (user: any) => Promise<any>;
     getAll: () => Promise<any>;
     checkUser: (user: any) => Promise<any>;
     save: (user: any) => Promise<any>;
