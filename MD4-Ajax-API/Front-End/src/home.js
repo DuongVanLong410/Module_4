@@ -1,4 +1,4 @@
-showNav();
+showNav()
 function showList() {
     let token = localStorage.getItem('token')
     if(token){
@@ -112,18 +112,27 @@ function showHome() {
 
 function showNav() {
     let token = localStorage.getItem('token');
-    if(token){
-        $('#nav').html(`
+    token = JSON.parse(token)
+    if(token) {
+        if (token.role === 'admin') {
+            $('#nav').html(`
     <button onclick="showFormAdd()">Add</button>
     <button onclick="showHome()">Home</button>
     <button onclick="logout()">logout</button>
     <input type="search" id="search" placeholder="Enter name" onkeyup="searchProduct(this.value)">
     `)
-    } else {
-        $('#nav').html(`
+        } else {
+            $('#nav').html(`
+    <button onclick="showHome()">Home</button>
+    <button onclick="logout()">logout</button>
+    <input type="search" id="search" placeholder="Enter name" onkeyup="searchProduct(this.value)">
+    `) }
+        } else {
+            $('#nav').html(`
     <button onclick="showFormLogin()">Login</button>
     <button onclick="showFormRegister()">Register</button>
     `)
+
     }
 }
 
@@ -267,16 +276,19 @@ function uploadImage(e) {
 
 function searchProduct(value) {
     let name = value.toLowerCase()
-    $.ajax({
-        type: 'GET',
-        url: `http://localhost:3000/products/search/findByName?name=${name}`,
-        headers: {
-            'Content-Type': 'application/json',
-            Authorization: 'Bearer ' + localStorage.getItem('token')
-        },
-        data: JSON.stringify(name),
-        success: (products) => {
-            $("#body").html(`
+    let token = localStorage.getItem('token')
+    if (token){
+        token = JSON.parse(token)
+        $.ajax({
+            type: 'GET',
+            url: `http://localhost:3000/products/search/findByName?name=${name}`,
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: 'Bearer ' + token.token
+            },
+            data: JSON.stringify(name),
+            success: (products) => {
+                $("#body").html(`
   
   <table class="table" border="1">
   <thead>
@@ -293,9 +305,9 @@ function searchProduct(value) {
   </tbody>
 </table>
     `)
-            let html = ''
-            products.map(item => {
-                html += `<tr>
+                let html = ''
+                products.map(item => {
+                    html += `<tr>
             <td>${item.id}</td>
             <td>${item.name}</td>
             <td>${item.price}</td>
@@ -304,10 +316,12 @@ function searchProduct(value) {
             <td><button onclick="remove(${item.id})">Delete</button></td>
             <td><button onclick="showFormEdit(${item.id})">Edit</button></td>                  
                          </tr>`
-            })
-            $("#tbody").html(html)
-        }
-    })
+                })
+                $("#tbody").html(html)
+            }
+        })
+    }
+
 }
 
 function showFormLogin() {
