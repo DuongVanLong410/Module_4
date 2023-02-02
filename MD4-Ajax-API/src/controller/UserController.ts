@@ -1,33 +1,27 @@
 import {Request, Response} from "express";
-import userService from "../service/UserService";
-import orderService from "../service/OrderService";
+import UserService from "../service/UserService";
+import OrderService from "../service/OrderService";
 
 class UserController {
-    private userService;
-    private orderService;
-
-    constructor() {
-        this.userService = userService;
-        this.orderService =orderService;
-    }
 
     showFormLogin = async (req: Request, res: Response) => {
-        await userService.getAll();
+        await UserService.getAll();
         res.render('user/login')// read file
     }
 
     register = async (req: Request,res: Response) => {
-        let user = await this.userService.register(req.body)
+        console.log(req.body, 2222222)
+        let user = await UserService.register(req.body)
         res.status(201).json(user)
     }
 
     login = async (req: Request, res: Response)=>{
-        let response = await this.userService.checkUser(req.body);
+        let response = await UserService.checkUser(req.body);
         res.status(200).json(response)
     }
 
     logout = async (req: Request, res: Response) => {
-        await orderService.updateOrderStatus();
+        await OrderService.updateOrderStatus();
         // @ts-ignore
         req.session.destroy((err)=>{
             return  res.redirect('/users/login')
@@ -39,7 +33,7 @@ class UserController {
     }
     signup = async (req: Request, res: Response) => {
         let user = req.body;
-                await userService.save(user);
+                await UserService.save(user);
                 res.redirect(301, '/home');
 
     }

@@ -7,4 +7,3 @@ userRouter.post('/register', userController.register);
 userRouter.post('/login', userController.login);
 userRouter.get('/logout', userController.logout);
 userRouter.get('/signup', userController.formSignup);
-userRouter.post('/signup', userController.signup);

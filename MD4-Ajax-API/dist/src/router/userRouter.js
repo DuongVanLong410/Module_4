@@ -12,5 +12,4 @@ exports.userRouter.post('/register', UserController_1.default.register);
 exports.userRouter.post('/login', UserController_1.default.login);
 exports.userRouter.get('/logout', UserController_1.default.logout);
 exports.userRouter.get('/signup', UserController_1.default.formSignup);
-exports.userRouter.post('/signup', UserController_1.default.signup);
 //# sourceMappingURL=userRouter.js.map

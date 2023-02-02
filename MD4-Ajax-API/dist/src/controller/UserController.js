@@ -12,11 +12,12 @@ class UserController {
             res.render('user/login');
         };
         this.register = async (req, res) => {
-            let user = await this.userService.register(req.body);
+            console.log(req.body, 2222222);
+            let user = await UserService_1.default.register(req.body);
             res.status(201).json(user);
         };
         this.login = async (req, res) => {
-            let response = await this.userService.checkUser(req.body);
+            let response = await UserService_1.default.checkUser(req.body);
             res.status(200).json(response);
         };
         this.logout = async (req, res) => {
@@ -33,8 +34,6 @@ class UserController {
             await UserService_1.default.save(user);
             res.redirect(301, '/home');
         };
-        this.userService = UserService_1.default;
-        this.orderService = OrderService_1.default;
     }
 }
 exports.default = new UserController();

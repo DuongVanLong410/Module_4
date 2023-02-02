@@ -1,8 +1,5 @@
 import { Request, Response } from "express";
 declare class UserController {
-    private userService;
-    private orderService;
-    constructor();
     showFormLogin: (req: Request, res: Response) => Promise<void>;
     register: (req: Request, res: Response) => Promise<void>;
     login: (req: Request, res: Response) => Promise<void>;
