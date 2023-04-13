@@ -34,7 +34,7 @@ function showList() {
             <td>${item.id}</td>
             <td>${item.name}</td>
             <td>${item.price}</td>
-            <td><img style="height: 200px;width: 200px" src="${item.image}" alt=""></td>
+            <td><img style="height: 100%;width: 200px" src="${item.image}" alt=""></td>
             <td>${item.nameCategory}</td>
             <td><button onclick="">Buy</button></td>
           
@@ -78,7 +78,8 @@ function getCategoriesCreate() {
 }
 
 function showFormAdd() {
-    $('#body').html(` <input type="text" id = "name" placeholder="name"> 
+    $('#body').html(` 
+             <input type="text" id = "name" placeholder="name"> 
              <input type="number" id = "price" placeholder="price"> 
              <input type="file" id="fileButton" onchange="uploadImage(event)">
             <div id="imgDiv"></div>
@@ -90,24 +91,7 @@ function showFormAdd() {
 }
 
 function showHome() {
-    $('#body').html(`
 
-    <table border="1">
-        <thead>
-        <tr>
-            <td>ID</td>
-            <td>Name</td>
-            <td>Price</td>
-            <td>Image</td>
-            <td>Category</td>
-            <td colspan="2">Action</td>
-        </tr>
-        </thead>
-        <tbody id="tbody">
-
-        </tbody>
-    </table>`)
-    showList();
 }
 
 function showNav() {

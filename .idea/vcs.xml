@@ -13,6 +13,7 @@
     <mapping directory="$PROJECT_DIR$/ExpressDemo-ORM" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/ExpressDemoAJAX" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/ExpressDemoORM" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/K14-project-shop" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/MD4_ORM" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/MD4_ORM_Demo" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/MD4_demoAPI01" vcs="Git" />

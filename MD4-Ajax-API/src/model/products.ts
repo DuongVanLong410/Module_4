@@ -8,8 +8,8 @@ export class Product{
     name: string
     @Column({type: "int"})
     price: string
-    @Column({type: "text"})
-    image: string
+    @Column({type: "int"})
+    quantity: number
     @Column()
     category: number
 }

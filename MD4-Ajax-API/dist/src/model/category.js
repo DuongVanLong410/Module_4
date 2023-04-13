@@ -21,6 +21,10 @@ __decorate([
     (0, typeorm_1.Column)(),
     __metadata("design:type", String)
 ], Category.prototype, "name", void 0);
+__decorate([
+    (0, typeorm_1.Column)(),
+    __metadata("design:type", String)
+], Category.prototype, "description", void 0);
 Category = __decorate([
     (0, typeorm_1.Entity)()
 ], Category);
