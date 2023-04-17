@@ -21,6 +21,7 @@
     <mapping directory="$PROJECT_DIR$/MD4_demoAPI_UploadFileTest" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/Md4_case1_ProductManager" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/Md4_case1_ProductManager/md4_orm" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/Module4_C12" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/MongoDB/Case_MD4_Phase1" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/MongoDB/Case_MD4_Phase_1" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/ORM/Product_List_Adding" vcs="Git" />
