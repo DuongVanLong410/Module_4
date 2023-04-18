@@ -4,20 +4,20 @@ const jwt = require('jsonwebtoken')
 const imgbbUploader = require('imgbb-uploader')
 
 module.exports.register = async (req, res) => {
-	// check if user is exists
+	// check if users is exists
 	// try {
 		// console.log('register', req.body)
 		const { email, phoneNumber } = req.body
 		const user = await User.findOne({ $or: [{ email }, { phoneNumber }] })
 
-		// console.log(user)
+		// console.log(users)
 
 		if (user)
 			return res
 				.status(400)
 				.json({ status: 'fail', message: 'User đã tồn tại.' })
 
-		// hash password and register user
+		// hash password and register users
 		req.body.password = await bcrypt.hash(req.body.password, 10)
 		const newUser = new User({
 			...req.body,
@@ -52,21 +52,21 @@ module.exports.login = async (req, res) => {
 	// console.log(req.body)
 
 
-	// tim user
+	// tim users
 	const user = await User.findOne({ $or: [{ email }, { phoneNumber }] }).select('+password')
-	// user.select('+password')
+	// users.select('+password')
 
 
-	// ko user => tra loi
+	// ko users => tra loi
 	if (!user)
 		return res.status(400).json({
 			status: 400,
 			message: 'User khong ton tai'
 		})
 
-	// console.log(user)
+	// console.log(users)
 
-	// user => check password
+	// users => check password
 	const isPassword = await bcrypt.compare(password, user.password)
 
 	// password khong dung

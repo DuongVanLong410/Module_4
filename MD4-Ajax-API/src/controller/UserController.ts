@@ -6,7 +6,7 @@ class UserController {
 
     showFormLogin = async (req: Request, res: Response) => {
         await UserService.getAll();
-        res.render('user/login')// read file
+        res.render('users/login')// read file
     }
 
     register = async (req: Request,res: Response) => {
@@ -29,7 +29,7 @@ class UserController {
 
     }
     formSignup = async (req: Request, res: Response) => {
-        res.render('user/signup')// read file
+        res.render('users/signup')// read file
     }
     signup = async (req: Request, res: Response) => {
         let user = req.body;

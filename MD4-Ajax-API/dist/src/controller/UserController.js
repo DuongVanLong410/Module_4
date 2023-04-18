@@ -9,7 +9,7 @@ class UserController {
     constructor() {
         this.showFormLogin = async (req, res) => {
             await UserService_1.default.getAll();
-            res.render('user/login');
+            res.render('users/login');
         };
         this.register = async (req, res) => {
             console.log(req.body, 2222222);
@@ -27,7 +27,7 @@ class UserController {
             });
         };
         this.formSignup = async (req, res) => {
-            res.render('user/signup');
+            res.render('users/signup');
         };
         this.signup = async (req, res) => {
             let user = req.body;

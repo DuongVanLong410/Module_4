@@ -3,16 +3,16 @@ const controller = require('../controllers/userController')
 const upload = require('../middlewares/uploadImgOfUser');
 const userModel = require('../models/userModel');
 
-// edit user
+// edit users
 router.put('/:id', upload.single('avatar'), controller.editUser)
 
-// delete user
+// delete users
 router.delete('/:id', controller.deleteUser)
 
-// get detail user
+// get detail users
 router.get('/:id', controller.getDetailUser)
 
-// get all user
+// get all users
 router.get('/', controller.getAllUser)
 
 module.exports = router

@@ -70,7 +70,7 @@ function changePassActive() {
 	if ($('.changePass').is(':checked')) {
 		$('#showChangePass').attr('checked', true)
 		$(
-			"[name='user-account__oldPassword'], [name='user-account__newPassword'], [name='user-account__passwordConfirm']"
+			"[name='users-account__oldPassword'], [name='users-account__newPassword'], [name='users-account__passwordConfirm']"
 		).prop('required', true)
 		$('#showChangePass:checked ~ .form-control').css(
 			'display',
@@ -79,7 +79,7 @@ function changePassActive() {
 	} else {
 		$('#showChangePass').removeAttr('checked')
 		$(
-			"[name='user-account__oldPassword'], [name='user-account__newPassword'], [name='user-account__passwordConfirm']"
+			"[name='users-account__oldPassword'], [name='users-account__newPassword'], [name='users-account__passwordConfirm']"
 		).prop('required', false)
 		$('#showChangePass:checked ~ .form-control').css('display', 'none')
 	}
@@ -150,9 +150,9 @@ form.addEventListener('submit', async (e) => {
 		// } else {
 		// 	alert('Cập nhật thông tin thất bại')
 		// }
-		oldPass = $('input[name="user-account__oldPassword"]').val()
-		newPass = $('input[name="user-account__newPassword"]').val()
-		confirmPass = $('input[name="user-account__confirmPassword"]').val()
+		oldPass = $('input[name="users-account__oldPassword"]').val()
+		newPass = $('input[name="users-account__newPassword"]').val()
+		confirmPass = $('input[name="users-account__confirmPassword"]').val()
 		if (newPass == confirmPass) {
 			const res2 = await $.ajax({
 				url: `/account/edit-pass`,

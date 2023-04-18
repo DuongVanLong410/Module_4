@@ -11,7 +11,7 @@ module.exports.checkLogging = async (req, res, next) => {
 		const user = await User.findById(result.userId)
 
 
-		// console.log(user)
+		// console.log(users)
 		if (!user) next()
 
 		req.user = user

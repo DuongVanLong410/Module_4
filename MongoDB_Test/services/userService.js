@@ -13,7 +13,7 @@ exports.getAllUsers = async () => {
     }
 };
 
-// Get user by ID
+// Get users by ID
 exports.getUserById = async (userId) => {
     try {
         const user = await User.findById(userId);

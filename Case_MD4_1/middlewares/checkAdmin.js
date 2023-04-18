@@ -10,9 +10,9 @@ module.exports.checkAdmin = async (req, res, next) => {
 		// console.log(result)
 
 		const user = await User.findById(result.userId)
-        // console.log(user)
+        // console.log(users)
 
-		// Không tìm thấy user hoặc không có quyền admin, nếu đã đăng nhập thì phải đăng nhập lại với tài khoản admin
+		// Không tìm thấy users hoặc không có quyền admin, nếu đã đăng nhập thì phải đăng nhập lại với tài khoản admin
 		if (!user || user.role !== 'admin')
             return res.redirect('/auth/login')
 

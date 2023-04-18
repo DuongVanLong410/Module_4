@@ -2,7 +2,7 @@
 
 const User = require('../models/user');
 
-// Create a new user
+// Create a new users
 exports.createUser = async (req, res) => {
     try {
         const { name, email, password } = req.body;

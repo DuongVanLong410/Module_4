@@ -53,7 +53,7 @@ class UserService{
     }
 
     save = async (user) => {
-        // console.log(user)
+        // console.log(users)
         return  this.userRepository.save(user);
     }
 }

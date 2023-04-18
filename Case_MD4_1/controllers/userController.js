@@ -49,7 +49,7 @@ module.exports.getAllUser = async (req, res) => {
 	}
 }
 
-// edit user
+// edit users
 module.exports.editUser = async (req, res) => {
 	const idUser = req.params.id
 	try {
@@ -57,10 +57,10 @@ module.exports.editUser = async (req, res) => {
 		if (!user)
 			return res.status(400).json({
 				status: 'fail',
-				message: 'Không tìm thấy user',
+				message: 'Không tìm thấy users',
 			})
 
-		// update user
+		// update users
 		if (req.file) {
 			const upload = await imgbbUploader(process.env.IMGBB_KEY, req.file.path)
 
@@ -88,10 +88,10 @@ module.exports.deleteUser = async (req, res) => {
 		if (!user)
 			return res.status(400).json({
 				status: 'fail',
-				message: 'Không tìm thấy user',
+				message: 'Không tìm thấy users',
 			})
 
-		// check user, nếu họ đang có order thì không xóa được
+		// check users, nếu họ đang có order thì không xóa được
 		const orders = await Order.find({ userId: user._id, status: 'waiting' }).lean()
 
 		if (orders.length > 0)
@@ -104,7 +104,7 @@ module.exports.deleteUser = async (req, res) => {
 
 		res.status(200).json({
 			status: 'success',
-			message: 'Xóa user thành công',
+			message: 'Xóa users thành công',
 		})
 	} catch (error) {
 		res.status(500).json({
@@ -121,7 +121,7 @@ module.exports.getDetailUser = async (req, res) => {
 		if (!user)
 			return res.status(400).json({
 				status: 'fail',
-				message: 'Không tìm thấy user',
+				message: 'Không tìm thấy users',
 			})
 
 		res.status(200).json({

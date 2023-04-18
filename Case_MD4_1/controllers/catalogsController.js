@@ -91,7 +91,7 @@ module.exports.getAllInfoProduct = async (req, res) => {
 
 module.exports.addToCart = async (req, res) => {
 	try {
-		// console.log(req.user)
+		// console.log(req.users)
 		const userId = req.user._id
 		const productId = req.body.idVariant
 		const quantity = req.body.quantity

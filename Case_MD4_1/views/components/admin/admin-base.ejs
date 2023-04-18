@@ -118,7 +118,7 @@
                         <%- include ('admin-add-product'); -%>
                     <% } %>
                     <% if (content == 'edit-customer') { %>
-                        <%- include ('admin-edit-customer', {user: data.user}); -%>
+                        <%- include ('admin-edit-customer', {users: data.users}); -%>
                     <% } %>
                     <% if (content == 'orders') { %>
                         <%- include ('admin-orders'); -%>
