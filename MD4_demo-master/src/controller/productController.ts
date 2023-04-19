@@ -1,11 +1,13 @@
 import {Request, Response} from "express";
 import productService from "../service/productService";
-
+import categoryService from "../service/CategoryService";
 class ProductController {
     private productService;
+    private categoryService;
 
     constructor() {
         this.productService = productService;
+        this.categoryService = categoryService;
     }
 
     findAll = async (req: Request, res: Response) => {
@@ -13,8 +15,9 @@ class ProductController {
         res.render('index', {products: listProduct});
     }
 
-    showFormAdd = (req: Request, res: Response) => {
-        res.render('products/create')
+    showFormAdd = async (req: Request, res: Response) => {
+        let listCategory = await this.categoryService.getAll()
+        res.render('products/create',{categories: listCategory})
     }
 
     addProduct = (req: Request, res: Response) => {

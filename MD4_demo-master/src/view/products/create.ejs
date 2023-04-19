@@ -173,6 +173,11 @@
                         <div id="imgDiv"></div>
                         <input type="hidden" class="form-control" name="image" placeholder="image" id="image"/>
                     </div>
+                    <select name="category">
+                       <%categories.forEach(item =>{%>
+                            <option value="<%= item._id%>"><%= item.name%></option>
+                        <%})%>
+                    </select>
                     <div>
                         <button class="btn btn-primary py-2 px-4" type="submit" id="sendMessageButton">Add</button>
                     </div>

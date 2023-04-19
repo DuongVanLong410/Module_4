@@ -98,6 +98,7 @@ exports.postCustomer = async (req, res) => {
     details: req.body.details,
     tel: req.body.tel,
     email: req.body.email,
+    image: req.body.image
   });
 
   try {
@@ -178,6 +179,7 @@ exports.editPost = async (req, res) => {
       tel: req.body.tel,
       email: req.body.email,
       details: req.body.details,
+      image: req.body.image,
       updatedAt: Date.now()
     });
     await res.redirect(`/edit/${req.params.id}`);

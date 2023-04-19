@@ -2,6 +2,7 @@
 
 // Import dependencies
 const express = require('express');
+// const bodyParser = require('body-parser')
 const mongoose = require('mongoose');
 const userRouter = require('./routers/userRouter');
 const postRouter = require('./routers/postRouter');

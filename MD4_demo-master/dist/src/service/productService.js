@@ -4,7 +4,7 @@ const product_1 = require("../entity/product");
 class ProductService {
     constructor() {
         this.getAll = async () => {
-            let listProduct = await product_1.Product.find();
+            let listProduct = await product_1.Product.find().populate('category');
             return listProduct;
         };
         this.add = async (product) => {

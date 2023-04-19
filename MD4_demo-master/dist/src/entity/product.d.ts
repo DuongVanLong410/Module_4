@@ -23,11 +23,13 @@
 /// <reference types="mongoose/types/virtuals" />
 /// <reference types="mongoose/types/inferschematype" />
 import { Schema } from 'mongoose';
+import { ICategory } from "./category";
 export interface IProduct {
     name?: string;
     price?: number;
     quantity?: number;
     image?: string;
+    category?: ICategory;
 }
 declare const Product: import("mongoose").Model<IProduct, {}, {}, {}, import("mongoose").Document<unknown, {}, IProduct> & Omit<IProduct & {
     _id: import("mongoose").Types.ObjectId;
