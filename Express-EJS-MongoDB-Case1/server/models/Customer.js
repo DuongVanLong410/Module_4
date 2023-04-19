@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 
 const Schema = mongoose.Schema;
+
 const CustomerSchema = new Schema({
   firstName: {
     type: String,
@@ -25,6 +26,10 @@ const CustomerSchema = new Schema({
   image:{
     type: String,
     required:true
+  },
+  category: {
+    type: Schema.Types.ObjectId,
+    ref: 'Category'
   },
   createdAt: {
     type: Date,

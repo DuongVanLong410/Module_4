@@ -4,6 +4,7 @@
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/-MD4_demoAPI01-1" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/Case_MD4" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/Case_MD4_1" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/Case_MD4_phase_2" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/DemoModule4" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/DemoModule4Express" vcs="Git" />

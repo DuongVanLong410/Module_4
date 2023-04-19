@@ -1,4 +1,5 @@
 const Customer = require("../models/Customer");
+const Category = require("../models/Category")
 const mongoose = require("mongoose");
 
 /**
@@ -6,35 +7,49 @@ const mongoose = require("mongoose");
  * Homepage
  */
 exports.homepage = async (req, res) => {
+  const messages = await req.consumeFlash('info');
+  const locals = {
+    title: 'Home',
+    description: 'NodeJs Express User Management System'
+  };
 
-    const messages = await req.consumeFlash('info');
-    const locals = {
-      title: 'NodeJs',
-      description: 'NodeJs Express User Management System'
-    }
+  const perPage = 5;
+  const page = req.query.page || 1;
 
-    let perPage = 12;
-    let page = req.query.page || 1;
+  try {
+    const customers = await Customer.aggregate([
+      {
+        $sort: { createdAt: -1 },
+      },
+      {
+        $lookup: {
+          from: 'categories',
+          localField: 'category',
+          foreignField: '_id',
+          as: 'category',
+        },
+      },
+      {
+        $skip: perPage * page - perPage,
+      },
+      {
+        $limit: perPage,
+      },
+    ]).exec();
+    const count = await Customer.countDocuments();
 
-    try {
-      const customers = await Customer.aggregate([ { $sort: { createdAt: -1 } } ])
-        .skip(perPage * page - perPage)
-        .limit(perPage)
-        .exec(); 
-      const count = await Customer.count();
+    res.render('index', {
+      locals,
+      customers,
+      current: page,
+      pages: Math.ceil(count / perPage),
+      messages,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
 
-      res.render('index', {
-        locals,
-        customers,
-        current: page,
-        pages: Math.ceil(count / perPage),
-        messages
-      });
-
-    } catch (error) {
-      console.log(error);
-    }
-}
 // exports.homepage = async (req, res) => {
 //     const messages = await req.consumeFlash('info');
 //     const locals = {
@@ -98,7 +113,8 @@ exports.postCustomer = async (req, res) => {
     details: req.body.details,
     tel: req.body.tel,
     email: req.body.email,
-    image: req.body.image
+    image: req.body.image,
+    category: req.body.category
   });
 
   try {
@@ -180,6 +196,7 @@ exports.editPost = async (req, res) => {
       email: req.body.email,
       details: req.body.details,
       image: req.body.image,
+      category: req.body.category,
       updatedAt: Date.now()
     });
     await res.redirect(`/edit/${req.params.id}`);
