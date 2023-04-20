@@ -114,7 +114,7 @@ exports.postCustomer = async (req, res) => {
     tel: req.body.tel,
     email: req.body.email,
     image: req.body.image,
-    category: req.body.category
+    category: req.body.name
   });
 
   try {
