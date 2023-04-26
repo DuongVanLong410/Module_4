@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<button onclick="showHome()">Home</button>
+<button onclick="showFormAdd()">Add</button>
+<div id="body"></div>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"
+        integrity="sha512-pumBsjNRGGqkPzKHndZMaAG+bir374sORyzM3uulLV14lN5LyykqNk8eEeUlUkB3U0M4FApyaHraT65ihJhDpQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+    function showHome() {
+        $.ajax({
+            type: 'GET',
+            url: 'http://localhost:3000/products',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            success: (products) => {
+                console.log(products)
+                let html = ``;
+                products.forEach(item => {
+                    html += `<h1>${item.id} - Price : ${item.price}, Name : ${item.name}</h1>`
+                })
+                $('#body').html(html)
+            }
+        })
+    }
+
+    function showFormAdd() {
+        let htmlFormAdd = `<input type="text" id="price" placeholder="Price">
+                            <input type="text" id="category" placeholder="Category">
+                            <input type="text" id="image" placeholder="Image">
+                            <input type="text" id="quantity" placeholder="Quantity">
+                            <input type="text" id="name" placeholder="Name">
+                            <button onclick="add()">Add</button>`
+        $('#body').html(htmlFormAdd)
+    }
+
+
+    function add() {
+        let price = $('#price').val();
+        let category = $('#category').val();
+        let image = $('#image').val();
+        let quantity = $('#quantity').val();
+        let name = $('#name').val();
+        let product = {
+            price: price,
+            category: category,
+            image: image,
+            quantity: quantity,
+            name: name
+        }
+
+        $.ajax({
+            type: 'POST',
+            url: 'http://localhost:3000/products',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            data: JSON.stringify(product),
+            success: () => {
+                showHome();
+            }
+        })
+
+    }
+</script>
+</body>
+</html>

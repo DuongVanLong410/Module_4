@@ -1,7 +1,8 @@
 showNav()
+
 function showList() {
     let token = localStorage.getItem('token')
-    if(token){
+    if (token) {
         token = JSON.parse(token)
         // console.log(token.role)
         $.ajax({
@@ -14,7 +15,7 @@ function showList() {
             success: (products) => {
                 // console.log(products);
                 let html = '';
-                if(token.role === 'admin'){
+                if (token.role === 'admin') {
                     products.map(item => {
                         html += `<tr>
             <td>${item.id}</td>
@@ -27,8 +28,7 @@ function showList() {
         </tr>`
                     })
                     $('#tbody').html(html)
-                }
-                else {
+                } else {
                     products.map(item => {
                         html += `<tr>
             <td>${item.id}</td>
@@ -53,7 +53,7 @@ function showList() {
 
 function getCategoriesCreate() {
     let token = localStorage.getItem('token')
-    if (token){
+    if (token) {
         token = JSON.parse(token)
         $.ajax({
             type: 'GET',
@@ -91,13 +91,14 @@ function showFormAdd() {
 }
 
 function showHome() {
-
+    showNav(); // added function call
+    showList(); // added function call
 }
 
 function showNav() {
     let token = localStorage.getItem('token');
     token = JSON.parse(token)
-    if(token) {
+    if (token) {
         if (token.role === 'admin') {
             $('#nav').html(`
     <button onclick="showFormAdd()">Add</button>
@@ -110,9 +111,10 @@ function showNav() {
     <button onclick="showHome()">Home</button>
     <button onclick="logout()">logout</button>
     <input type="search" id="search" placeholder="Enter name" onkeyup="searchProduct(this.value)">
-    `) }
-        } else {
-            $('#nav').html(`
+    `)
+        }
+    } else {
+        $('#nav').html(`
     <button onclick="showFormLogin()">Login</button>
     <button onclick="showFormRegister()">Register</button>
     `)
@@ -122,7 +124,7 @@ function showNav() {
 
 function add() {
     let token = localStorage.getItem('token')
-    if (token){
+    if (token) {
         token = JSON.parse(token)
         let name = $('#name').val();
         let price = $('#price').val();
@@ -152,28 +154,28 @@ function add() {
 }
 
 function remove(id) {
-    if (confirm('Do you want to delete this item?')){
-    let token = localStorage.getItem('token')
-    if (token){
-        token = JSON.parse(token)
-        $.ajax({
-            type: 'DELETE',
-            url: `http://localhost:3000/products/${id}`,
-            headers: {
-                'Content-Type': 'application/json',
-                Authorization: 'Bearer ' + token.token
-            },
-            success: () => {
-                showHome();
-            }
-        })
+    if (confirm('Do you want to delete this item?')) {
+        let token = localStorage.getItem('token')
+        if (token) {
+            token = JSON.parse(token)
+            $.ajax({
+                type: 'DELETE',
+                url: `http://localhost:3000/products/${id}`,
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: 'Bearer ' + token.token
+                },
+                success: () => {
+                    showHome();
+                }
+            })
+        }
     }
-}
 }
 
 function showFormEdit(id) {
     let token = localStorage.getItem('token');
-    if(token) {
+    if (token) {
         token = JSON.parse(token)
         $.ajax({
             type: 'GET',
@@ -198,7 +200,7 @@ function showFormEdit(id) {
 
 function edit(id) {
     let token = localStorage.getItem('token');
-    if(token){
+    if (token) {
         token = JSON.parse(token)
         let name = $('#name').val();
         let price = $('#price').val();
@@ -261,7 +263,7 @@ function uploadImage(e) {
 function searchProduct(value) {
     let name = value.toLowerCase()
     let token = localStorage.getItem('token')
-    if (token){
+    if (token) {
         token = JSON.parse(token)
         $.ajax({
             type: 'GET',
@@ -372,9 +374,9 @@ function signup() {
         data: JSON.stringify(user),
 
         success: (user) => {
-            if(user === 'Username registered'){
+            if (user === 'Username registered') {
                 alert('Username registered')
-            }else {
+            } else {
                 showFormLogin()
             }
 
