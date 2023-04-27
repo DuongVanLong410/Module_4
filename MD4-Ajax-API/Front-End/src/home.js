@@ -1,10 +1,9 @@
 showNav()
 
 function showList() {
-    let token = localStorage.getItem('token')
+    let token = localStorage.getItem('token');
     if (token) {
-        token = JSON.parse(token)
-        // console.log(token.role)
+        token = JSON.parse(token);
         $.ajax({
             type: 'GET',
             url: 'http://localhost:3000/products',
@@ -13,41 +12,44 @@ function showList() {
                 Authorization: 'Bearer ' + token.token
             },
             success: (products) => {
-                // console.log(products);
-                let html = '';
-                if (token.role === 'admin') {
-                    products.map(item => {
-                        html += `<tr>
-            <td>${item.id}</td>
-            <td>${item.name}</td>
-            <td>${item.price}</td>
-            <td><img style="height: 100%;width: 200px" src="${item.image}" alt=""></td>
-            <td>${item.nameCategory}</td>
-            <td><button onclick="remove(${item.id})">Delete</button></td>
-            <td><button onclick="showFormEdit(${item.id})">Edit</button></td>
-        </tr>`
-                    })
-                    $('#tbody').html(html)
-                } else {
-                    products.map(item => {
-                        html += `<tr>
-            <td>${item.id}</td>
-            <td>${item.name}</td>
-            <td>${item.price}</td>
-            <td><img style="height: 100%;width: 200px" src="${item.image}" alt=""></td>
-            <td>${item.nameCategory}</td>
-            <td><button onclick="">Buy</button></td>
-          
-        </tr>`
-                    })
-                    $('#tbody').html(html)
+                let html = `
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Price</th>
+                                <th>Image</th>
+                                <th>Category</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>`;
+                for (const item of products) {
+                    html += `
+                        <tr>
+                            <td>${item.id}</td>
+                            <td>${item.name}</td>
+                            <td>${item.price}</td>
+                            <td><img style="height: 100%;width: 200px" src="${item.image}" alt=""></td>
+                            <td>${item.category.name}</td>
+                            <td>`;
+                    if (token.role === 'admin') {
+                        html += `<button onclick="remove(${item.id})">Delete</button>
+                            <button onclick="showFormEdit(${item.id})">Edit</button>`;
+                    } else {
+                        html += `<button onclick="">Buy</button>`;
+                    }
+                    html += `</td>
+                        </tr>`;
                 }
-
+                html += `
+                        </tbody>
+                    </table>`;
+                $('#body').html(html);
             }
-        })
+        });
     }
-
-
 }
 
 
