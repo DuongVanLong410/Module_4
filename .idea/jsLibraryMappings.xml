@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="JavaScriptLibraryMappings">
-    <file url="PROJECT" libraries="{bootstrap-icons, bootstrap.bundle, firebase, jquery, jquery-3.3.1.slim, jquery-3.4.1, jquery-ajaxy, popper.js}" />
+    <file url="PROJECT" libraries="{bootstrap-icons, bootstrap.bundle, firebase, firebase-app, firebase-auth, firebase-firestore, jquery, jquery-3.3.1.slim, jquery-3.4.1, jquery-ajaxy, popper.js}" />
     <includedPredefinedLibrary name="Node.js Core" />
   </component>
 </project>

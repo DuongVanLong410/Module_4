@@ -1,3 +1,5 @@
+//category-entity.ts
+
 import {Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn} from "typeorm";
 import {Product} from "./product";
 

@@ -234,11 +234,11 @@ function getList() {
                             <div class="portfolio-item-caption-content text-center text-white"><i
                                     class="fas fa-plus fa-3x"></i></div>
                         </div>
-                        <p>name:${product.name}</p>
-                        <p>category:${product.category.name}</p>
+                        <p>name: ${product.name}</p>
+                        <p>category: ${product.category.name}</p>
                         <img class="img-fluid" src="${product.image}" alt="..."/>
-                        <p>price:${product.price}</p>
-                        <p>quantity:${product.quantity}</p>
+                        <p>price: ${product.price}</p>
+                        <p>quantity: ${product.quantity}</p>
                       <div>
                          <button  class="btn btn-primary btn-lg" onclick="formUpdate(${product.id})">update</button>
                          <button type="button" class="btn btn-primary btn-lg" onclick="remove(${product.id})">delete</button>
@@ -265,6 +265,50 @@ function formAdd() {
     <button onclick="create()">add</button>
   `;
     $('#body').html(html)
+}
+
+function create() {
+    const name = $('#name').val()
+    const price = $('#price').val()
+    const quantity = $('#quantity').val()
+    const category = $('#category').val()
+
+    const file = document.getElementById('image').files[0]
+    const storageRef = firebase.storage().ref(`images/${file.name}`)
+    const task = storageRef.put(file)
+    task.on('state_changed',
+        function progress(snapshot) {
+            const percentage = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+            console.log('Upload is ' + percentage + '% done')
+        },
+        function error(err) {
+            console.log('Error:', err)
+        },
+        function complete() {
+            task.snapshot.ref.getDownloadURL().then(function(downloadURL) {
+                const product = {
+                    name: name,
+                    price: price,
+                    quantity: quantity,
+                    image: downloadURL,
+                    category: {
+                        id: category
+                    }
+                }
+                $.ajax({
+                    type: "POST",
+                    url: "http://localhost:3000/products",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    data: JSON.stringify(product),
+                    success: () => {
+                        getList()
+                    }
+                })
+            })
+        }
+    )
 }
 
 function formRegister(){
@@ -299,104 +343,115 @@ function createUser(){
     })
 }
 
-function uploadImage(event) {
-    const file = event.target.files[0];
-    const reader = new FileReader();
-
-    reader.onload = function(e) {
-        const imgSrc = e.target.result;
-        const img = document.createElement('image');
-        img.src = imgSrc;
-        $('#imgDiv').append(img);
-    }
-
-    reader.readAsDataURL(file);
-}
-
-function create() {
-    let name = $('#name').val()
-    let price = $('#price').val()
-    let quantity = $('#quantity').val()
-    let img = $('#image').val()
-    let category = $('#category').val()
-
-    let product = {
-        name: name,
-        price: price,
-        quantity: quantity,
-        image: img,
-        category: category
-    }
-    $.ajax({
-        type: "POST",
-        url: "http://localhost:3000/products",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        data: JSON.stringify(product),
-        success: (message) => {
-            getList()
-        }
-    })
-}
-
 function remove(id) {
-    $.ajax({
-        type: "delete",
-        url: `http://localhost:3000/products/${id}`,
-        Headers: {
-            'Content-Type': 'application/json'
-        },
-        success: () => {
-            getList();
-        }
-    })
+    if (confirm("Are you sure you want to delete this product?")) {
+        $.ajax({
+            type: "delete",
+            url: `http://localhost:3000/products/${id}`,
+            Headers: {
+                'Content-Type': 'application/json'
+            },
+            success: () => {
+                getList();
+            }
+        })
+    }
 }
 
 function formUpdate(id) {
-    $.ajax({
-        type: "GET",
-        url: `http://localhost:3000/products/${id}`,
-        Headers: {
-            'Content-Type': 'application/json'
-        },
-        success: (product) => {
+    const productRef = db.collection('products').doc(id);
+    productRef.get().then((doc) => {
+        if (doc.exists) {
+            const product = doc.data();
             let html = `
-        <input type="text" id="name" placeholder="name" value="${product.name}">
-        <input type="text" id="price" placeholder="price" value="${product.price}">
-        <input type="text" id="quantity" placeholder="quantity" value="${product.quantity}">
-        <input type="file" id="image" onchange="uploadImage(event)">
-        <div id="imgDiv"><img src="${product.image}"></div>
-        <input type="text" id="category" placeholder="category" value="${product.category.id}">
-        <button onclick="update(${product.id})">update</button>
-      `;
-            $('#body').html(html)
+                <input type="text" id="name" placeholder="name" value="${product.name}">
+                <input type="text" id="price" placeholder="price" value="${product.price}">
+                <input type="text" id="quantity" placeholder="quantity" value="${product.quantity}">
+                <input type="file" id="image" onchange="uploadImage(event)">
+                <div id="imgDiv"><img src="${product.image}" alt=""></div>
+                <input type="text" id="category" placeholder="category" value="${product.category}">
+                <button onclick="update('${id}')">update</button>
+            `;
+            $('#body').html(html);
+        } else {
+            console.log("No such product document!");
         }
-    })
+    }).catch((error) => {
+        console.log("Error getting product document:", error);
+    });
 }
-function update(id) {
-    let name = $('#name').val()
-    let price = $('#price').val()
-    let quantity = $('#quantity').val()
-    let img = $('#image').val()
-    let category = $('#category').val()
 
-    let product = {
-        name: name,
-        price: price,
-        quantity: quantity,
-        image: img,
-        category: category
+function update(id) {
+    const name = $('#name').val();
+    const price = $('#price').val();
+    const quantity = $('#quantity').val();
+    const category = $('#category').val();
+    const productRef = db.collection('products').doc(id);
+
+    const imageFile = $('#image').prop('files')[0];
+    if (imageFile) {
+        const storageRef = firebase.storage().ref();
+        const imageRef = storageRef.child(`products/${imageFile.name}`);
+
+        // Upload image to Firebase Storage
+        imageRef.put(imageFile).then((snapshot) => {
+            // Get download URL of the uploaded image
+            snapshot.ref.getDownloadURL().then((downloadURL) => {
+                // Update product data in Firestore with the download URL
+                productRef
+                    .update({
+                        name: name,
+                        price: parseFloat(price),
+                        quantity: parseInt(quantity),
+                        image: downloadURL,
+                        category: category
+                    })
+                    .then(() => {
+                        console.log('Product updated successfully!');
+                        formList();
+                    })
+                    .catch((error) => {
+                        console.error('Error updating product: ', error);
+                    });
+            });
+        });
+    } else {
+        // No image to upload, update product data in Firestore directly
+        productRef
+            .update({
+                name: name,
+                price: parseFloat(price),
+                quantity: parseInt(quantity),
+                category: category
+            })
+            .then(() => {
+                console.log('Product updated successfully!');
+                formList();
+            })
+            .catch((error) => {
+                console.error('Error updating product: ', error);
+            });
     }
-    $.ajax({
-        type: "put",
-        url: `http://localhost:3000/products/${id}`,
-        headers: {
-            "Content-Type": "application/json"
+}
+
+function uploadImage(event) {
+    const file = event.target.files[0]
+    const storageRef = firebase.storage().ref(`images/${file.name}`)
+    const task = storageRef.put(file)
+    task.on('state_changed',
+        function progress(snapshot) {
+            const percentage = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+            console.log('Upload is ' + percentage + '% done')
         },
-        data: JSON.stringify(product),
-        success: (message) => {
-            getList()
+        function error(err) {
+            console.log('Error:', err)
+        },
+        function complete() {
+            task.snapshot.ref.getDownloadURL().then(function(downloadURL) {
+                const img = document.createElement('img')
+                img.src = downloadURL
+                document.getElementById('imgDiv').appendChild(img)
+            })
         }
-    })
+    )
 }
