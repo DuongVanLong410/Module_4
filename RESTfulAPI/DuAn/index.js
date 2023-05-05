@@ -383,54 +383,55 @@ function formUpdate(id) {
 
 function update(id) {
     const name = $('#name').val();
-    const price = $('#price').val();
-    const quantity = $('#quantity').val();
+    const price = parseFloat($('#price').val());
+    const quantity = parseInt($('#quantity').val());
     const category = $('#category').val();
-    const productRef = db.collection('products').doc(id);
 
     const imageFile = $('#image').prop('files')[0];
+
+    const batch = db.batch();
+
+    const productRef = db.collection('products').doc(id);
+
+    batch.update(productRef, {
+        name: name,
+        price: price,
+        quantity: quantity,
+        category: category,
+    });
+
     if (imageFile) {
         const storageRef = firebase.storage().ref();
         const imageRef = storageRef.child(`products/${imageFile.name}`);
 
-        // Upload image to Firebase Storage
-        imageRef.put(imageFile).then((snapshot) => {
-            // Get download URL of the uploaded image
-            snapshot.ref.getDownloadURL().then((downloadURL) => {
-                // Update product data in Firestore with the download URL
-                productRef
-                    .update({
-                        name: name,
-                        price: parseFloat(price),
-                        quantity: parseInt(quantity),
+        batch.commit().then(() => {
+            // Upload image to Firebase Storage
+            imageRef.put(imageFile).then((snapshot) => {
+                // Get download URL of the uploaded image
+                snapshot.ref.getDownloadURL().then((downloadURL) => {
+                    // Update product data in Firestore with the download URL
+                    batch.update(productRef, {
                         image: downloadURL,
-                        category: category
-                    })
-                    .then(() => {
+                    });
+
+                    batch.commit().then(() => {
                         console.log('Product updated successfully!');
                         formList();
-                    })
-                    .catch((error) => {
+                    }).catch((error) => {
                         console.error('Error updating product: ', error);
                     });
+                });
             });
+        }).catch((error) => {
+            console.error('Error updating product: ', error);
         });
     } else {
-        // No image to upload, update product data in Firestore directly
-        productRef
-            .update({
-                name: name,
-                price: parseFloat(price),
-                quantity: parseInt(quantity),
-                category: category
-            })
-            .then(() => {
-                console.log('Product updated successfully!');
-                formList();
-            })
-            .catch((error) => {
-                console.error('Error updating product: ', error);
-            });
+        batch.commit().then(() => {
+            console.log('Product updated successfully!');
+            formList();
+        }).catch((error) => {
+            console.error('Error updating product: ', error);
+        });
     }
 }
 
